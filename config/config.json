@@ -50,7 +50,7 @@
 		}
 	},
 	"Template": {
-		"Root": "base",
+		"Root": "app",
 		"Children": [
 			"partial/menu",
 			"partial/footer"
@@ -58,7 +58,7 @@
 	},
 	"View": {
 		"BaseURI": "/",
-		"Extension": "tmpl",
+		"Extension": "html",
 		"Folder": "template",
 		"Name": "blank",
 		"Caching": true

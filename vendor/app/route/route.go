@@ -57,9 +57,7 @@ func routes() *httprouter.Router {
 		ThenFunc(controller.Static)))
 
 	// Home page
-	r.GET("/", hr.Handler(alice.
-		New().
-		ThenFunc(controller.IndexGET)))
+	r.GET("/", hr.Handler(alice.New().ThenFunc(controller.IndexGET)))
 
 	// Login
 	r.GET("/login", hr.Handler(alice.
@@ -104,6 +102,17 @@ func routes() *httprouter.Router {
 	r.GET("/notepad/delete/:id", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.NotepadDeleteGET)))
+
+	// Accounts
+	r.GET("/accounts", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.AccountReadGET)))
+
+	// Clients
+	r.GET("/clients", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.ClientIndexGET)))
+
 
 	// Enable Pprof
 	r.GET("/debug/pprof/*pprof", hr.Handler(alice.
