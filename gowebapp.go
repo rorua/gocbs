@@ -6,7 +6,7 @@ import (
 	"os"
 	"runtime"
 
-	"app/route"
+	"gocbs/route"
 	"app/shared/database"
 	"app/shared/email"
 	"app/shared/jsonconfig"
