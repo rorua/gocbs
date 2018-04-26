@@ -1,22 +1,22 @@
 # GoCBS
 
 ## Ravshan Yuldashev's master thesis
-Russian-Tajik (Slavanic) University
+Russian-Tajik (Slavonic) University
 ## 2018
 
 ## based on GoWebApp from github.com/josephspurrier/gowebapp
 
 Basic MVC Web Application in Go
 
-This project demonstrates how to structure and build a website using the Go language without a framework. There is a blog article you can read at [http://www.josephspurrier.com/go-web-app-example/](http://www.josephspurrier.com/go-web-app-example/). There is a full application I built with an earlier version of the project at [https://github.com/verifiedninja/webapp](https://github.com/verifiedninja/webapp). There is an API version of this project at [https://github.com/josephspurrier/gowebapi](https://github.com/josephspurrier/gowebapi).
+## Quick Start with MySQL
 
-To download, run the following command:
+Start MySQL and import config/mysql.sql to create the database and tables.
 
-~~~
-go get github.com/josephspurrier/gowebapp
-~~~
+Open config/config.json and edit the Database section so the connection information matches your MySQL instance. Also, change Type from Bolt to MySQL.
 
-If you are on Go 1.5, you need to set GOVENDOREXPERIMENT to 1. If you are on Go 1.4 or earlier, the code will not work because it uses the vendor folder.
+Build and run from the root directory. Open your web browser to: http://localhost. You should see the welcome page.
+
+Navigate to the login page, and then to the register page. Create a new user and you should be able to login. That's it.
 
 ## Quick Start with Bolt
 
@@ -31,16 +31,6 @@ Navigate to the login page, and then to the register page. Create a new user and
 Start MongoDB.
 
 Open config/config.json and edit the Database section so the connection information matches your MongoDB instance. Also, change Type from Bolt to MongoDB.
-
-Build and run from the root directory. Open your web browser to: http://localhost. You should see the welcome page.
-
-Navigate to the login page, and then to the register page. Create a new user and you should be able to login. That's it.
-
-## Quick Start with MySQL
-
-Start MySQL and import config/mysql.sql to create the database and tables.
-
-Open config/config.json and edit the Database section so the connection information matches your MySQL instance. Also, change Type from Bolt to MySQL.
 
 Build and run from the root directory. Open your web browser to: http://localhost. You should see the welcome page.
 
@@ -64,12 +54,6 @@ flash messages that disappear after 4 seconds. The flash messages are controlled
 by JavaScript in the static folder.
 
 ## Structure
-
-Recently, the folder structure changed. After looking at all the forks 
-and reusing my project in different places, I decided to move the Go code to the 
-**app** folder inside the **vendor** folder so the github path is not littered 
-throughout the many imports. I did not want to use relative paths so the vendor
-folder seemed like the best option.
 
 The project is organized into the following folders:
 
@@ -106,13 +90,14 @@ about/about.html       - quick info about the app
 index/anon.html	       - public home page
 index/auth.html	       - home page once you login
 login/login.html	   - login page
-notepad/create.html    - create note
-notepad/read.html      - read a note
-notepad/update.html    - update a note
 partial/footer.html	   - footer
 partial/menu.html	   - menu at the top of all the pages
 register/register.html - register page
 app.html		       - base template for all the pages
+
+notepad/create.html    - create note
+notepad/read.html      - read a note
+notepad/update.html    - update a note
 ~~~
 
 ## Templates

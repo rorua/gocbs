@@ -1,4 +1,4 @@
-{{define "title"}}Login{{end}}
+{{define "title"}}Войти{{end}}
 {{define "head"}}{{end}}
 {{define "content"}}
 
@@ -8,12 +8,12 @@
 	</div>
 	<form method="post">
 		<div class="form-group">
-			<label for="email">Email Address</label>
+			<label for="email">Email</label>
 			<div><input type="email" class="form-control" id="email" name="email" maxlength="48" placeholder="Email" value="{{.email}}" /></div>
 		</div>
 		
 		<div class="form-group">
-			<label for="password">Password</label>
+			<label for="password">Пароль</label>
 			<div><input type="password" class="form-control" id="password" name="password" maxlength="48" placeholder="Password" value="{{.password}}" /></div>
 		</div>
 		
@@ -23,7 +23,7 @@
 	</form>
 	
 	<p style="margin-top: 15px;">
-	{{LINK "register" "Create a new account."}}
+	{{LINK "register" "Создать новый аккаунт."}}
 	</p>
 	
 	{{template "footer" .}}

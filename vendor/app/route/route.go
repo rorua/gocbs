@@ -106,12 +106,17 @@ func routes() *httprouter.Router {
 	// Accounts
 	r.GET("/accounts", hr.Handler(alice.
 		New(acl.DisallowAnon).
-		ThenFunc(controller.AccountReadGET)))
+		ThenFunc(controller.AccountIndexGET)))
 
 	// Clients
 	r.GET("/clients", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.ClientIndexGET)))
+
+	// Transactions
+	r.GET("/transactions", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.TransactionIndexGET)))
 
 
 	// Enable Pprof

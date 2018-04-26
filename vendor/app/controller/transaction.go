@@ -14,8 +14,8 @@ import (
 	//"github.com/julienschmidt/httprouter"
 )
 
-// AccountGET displays the accounts
-func AccountIndexGET(w http.ResponseWriter, r *http.Request) {
+// TransactionIndexGET displays the Transactions
+func TransactionIndexGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
 
@@ -23,7 +23,7 @@ func AccountIndexGET(w http.ResponseWriter, r *http.Request) {
 
 	// Display the view
 	v := view.New(r)
-	v.Name = "accounts/index"
+	v.Name = "transactions/index"
 	v.Vars["first_name"] = sess.Values["first_name"]
 	v.Vars["user_id"] = userID
 	v.Render(w)
