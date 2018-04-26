@@ -58,14 +58,13 @@ by JavaScript in the static folder.
 The project is organized into the following folders:
 
 ~~~
-config		- application settings and database schema
-static		- location of statically served files like CSS and JS
-template	- HTML templates
-
-vendor/app/controller	- page logic organized by HTTP methods (GET, POST)
-vendor/app/shared		- packages for templates, MySQL, cryptography, sessions, and json
-vendor/app/model		- database queries
-vendor/app/route		- route information and middleware
+config		        - application settings and database schema
+static		        - location of statically served files like CSS and JS
+template	        - HTML templates
+controller	        - page logic organized by HTTP methods (GET, POST)
+model		        - database queries
+route		        - route information and middleware
+vendor/app/shared	- packages for templates, MySQL, cryptography, sessions, and json
 ~~~
 
 There are a few external packages:
