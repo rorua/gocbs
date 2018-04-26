@@ -3,11 +3,11 @@ package route
 import (
 	"net/http"
 
-	"app/controller"
-	"app/route/middleware/acl"
-	hr "app/route/middleware/httprouterwrapper"
-	"app/route/middleware/logrequest"
-	"app/route/middleware/pprofhandler"
+	"gocbs/controller"
+	"gocbs/route/middleware/acl"
+	hr "gocbs/route/middleware/httprouterwrapper"
+	"gocbs/route/middleware/logrequest"
+	"gocbs/route/middleware/pprofhandler"
 	"app/shared/session"
 
 	"github.com/gorilla/context"
@@ -57,9 +57,7 @@ func routes() *httprouter.Router {
 		ThenFunc(controller.Static)))
 
 	// Home page
-	r.GET("/", hr.Handler(alice.
-		New().
-		ThenFunc(controller.IndexGET)))
+	r.GET("/", hr.Handler(alice.New().ThenFunc(controller.IndexGET)))
 
 	// Login
 	r.GET("/login", hr.Handler(alice.
@@ -104,6 +102,22 @@ func routes() *httprouter.Router {
 	r.GET("/notepad/delete/:id", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.NotepadDeleteGET)))
+
+	// Accounts
+	r.GET("/accounts", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.AccountIndexGET)))
+
+	// Clients
+	r.GET("/clients", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.ClientIndexGET)))
+
+	// Transactions
+	r.GET("/transactions", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.TransactionIndexGET)))
+
 
 	// Enable Pprof
 	r.GET("/debug/pprof/*pprof", hr.Handler(alice.

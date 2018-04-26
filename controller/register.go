@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"app/model"
+	"gocbs/model"
 	"app/shared/passhash"
 	"app/shared/recaptcha"
 	"app/shared/session"

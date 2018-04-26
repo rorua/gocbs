@@ -1,0 +1,23 @@
+{{define "title"}}Клиенты{{end}}
+{{define "head"}}{{end}}
+{{define "content"}}
+<div class="container">
+	<div class="page-header">
+		<h1>Клиенты</h1>
+	</div>
+	<p>
+		<a title="Add Note" class="btn btn-primary" role="button" href="{{$.BaseURI}}clients/create">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить Клиента
+		</a>
+	</p>
+
+	<div class="panel panel-default">
+		<div class="panel-body">
+			Клиенты
+		</div>
+	</div>
+
+	{{template "footer" .}}
+</div>
+{{end}}
+{{define "foot"}}{{end}}

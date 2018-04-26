@@ -1,18 +1,22 @@
 # GoCBS
 
-# based on GoWebApp from github.com/josephspurrier/gowebapp
+## Ravshan Yuldashev's master thesis
+Russian-Tajik (Slavonic) University
+## 2018
+
+## based on GoWebApp from github.com/josephspurrier/gowebapp
 
 Basic MVC Web Application in Go
 
-This project demonstrates how to structure and build a website using the Go language without a framework. There is a blog article you can read at [http://www.josephspurrier.com/go-web-app-example/](http://www.josephspurrier.com/go-web-app-example/). There is a full application I built with an earlier version of the project at [https://github.com/verifiedninja/webapp](https://github.com/verifiedninja/webapp). There is an API version of this project at [https://github.com/josephspurrier/gowebapi](https://github.com/josephspurrier/gowebapi).
+## Quick Start with MySQL
 
-To download, run the following command:
+Start MySQL and import config/mysql.sql to create the database and tables.
 
-~~~
-go get github.com/josephspurrier/gowebapp
-~~~
+Open config/config.json and edit the Database section so the connection information matches your MySQL instance. Also, change Type from Bolt to MySQL.
 
-If you are on Go 1.5, you need to set GOVENDOREXPERIMENT to 1. If you are on Go 1.4 or earlier, the code will not work because it uses the vendor folder.
+Build and run from the root directory. Open your web browser to: http://localhost. You should see the welcome page.
+
+Navigate to the login page, and then to the register page. Create a new user and you should be able to login. That's it.
 
 ## Quick Start with Bolt
 
@@ -27,16 +31,6 @@ Navigate to the login page, and then to the register page. Create a new user and
 Start MongoDB.
 
 Open config/config.json and edit the Database section so the connection information matches your MongoDB instance. Also, change Type from Bolt to MongoDB.
-
-Build and run from the root directory. Open your web browser to: http://localhost. You should see the welcome page.
-
-Navigate to the login page, and then to the register page. Create a new user and you should be able to login. That's it.
-
-## Quick Start with MySQL
-
-Start MySQL and import config/mysql.sql to create the database and tables.
-
-Open config/config.json and edit the Database section so the connection information matches your MySQL instance. Also, change Type from Bolt to MySQL.
 
 Build and run from the root directory. Open your web browser to: http://localhost. You should see the welcome page.
 
@@ -60,12 +54,6 @@ flash messages that disappear after 4 seconds. The flash messages are controlled
 by JavaScript in the static folder.
 
 ## Structure
-
-Recently, the folder structure changed. After looking at all the forks 
-and reusing my project in different places, I decided to move the Go code to the 
-**app** folder inside the **vendor** folder so the github path is not littered 
-throughout the many imports. I did not want to use relative paths so the vendor
-folder seemed like the best option.
 
 The project is organized into the following folders:
 
@@ -98,17 +86,18 @@ golang.org/x/crypto/bcrypt 				- password hashing algorithm
 The templates are organized into folders under the **template** folder:
 
 ~~~
-about/about.tmpl       - quick info about the app
-index/anon.tmpl	       - public home page
-index/auth.tmpl	       - home page once you login
-login/login.tmpl	   - login page
-notepad/create.tmpl    - create note
-notepad/read.tmpl      - read a note
-notepad/update.tmpl    - update a note
-partial/footer.tmpl	   - footer
-partial/menu.tmpl	   - menu at the top of all the pages
-register/register.tmpl - register page
-base.tmpl		       - base template for all the pages
+about/about.html       - quick info about the app
+index/anon.html	       - public home page
+index/auth.html	       - home page once you login
+login/login.html	   - login page
+partial/footer.html	   - footer
+partial/menu.html	   - menu at the top of all the pages
+register/register.html - register page
+app.html		       - base template for all the pages
+
+notepad/create.html    - create note
+notepad/read.html      - read a note
+notepad/update.html    - update a note
 ~~~
 
 ## Templates
@@ -423,42 +412,3 @@ This is config.json:
 
 To enable HTTPS, set UseHTTPS to true, create a folder called tls in the root, 
 and then place the certificate and key files in that folder.
-
-## Screenshots
-
-Public Home:
-
-![Image of Public Home](https://cloud.githubusercontent.com/assets/2394539/11319464/e2cd0eac-9045-11e5-9b24-5e480240cd69.jpg)
-
-About:
-
-![Image of About](https://cloud.githubusercontent.com/assets/2394539/11319462/e2c4d2d2-9045-11e5-805f-8b40598c92c3.jpg)
-
-Register:
-
-![Image of Register](https://cloud.githubusercontent.com/assets/2394539/11319466/e2d03500-9045-11e5-9c8e-c28fe663ed0f.jpg)
-
-Login:
-
-![Image of Login](https://cloud.githubusercontent.com/assets/2394539/11319463/e2cd1a00-9045-11e5-8b8e-68030d870cbe.jpg)
-
-Authenticated Home:
-
-![Image of Auth Home](https://cloud.githubusercontent.com/assets/2394539/14809208/75f340d2-0b59-11e6-8d2a-cd26ee872281.PNG)
-
-View Notes:
-
-![Image of Notepad View](https://cloud.githubusercontent.com/assets/2394539/14809205/75f08432-0b59-11e6-8737-84ee796bd82e.PNG)
-
-Add Note:
-
-![Image of Notepad Add](https://cloud.githubusercontent.com/assets/2394539/14809207/75f338f8-0b59-11e6-9719-61355957996c.PNG)
-
-Edit Note:
-
-![Image of Notepad Edit](https://cloud.githubusercontent.com/assets/2394539/14809206/75f33970-0b59-11e6-8acf-b3d533477aac.PNG)
-
-## Feedback
-
-All feedback is welcome. Let me know if you have any suggestions, questions, or criticisms. 
-If something is not idiomatic to Go, please let me know know so we can make it better.

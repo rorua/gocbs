@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"app/model"
+	"gocbs/model"
 	"app/shared/session"
 	"app/shared/view"
 
