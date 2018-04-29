@@ -82,6 +82,25 @@ func UserByEmail(email string) (User, error) {
 	return result, standardizeError(err)
 }
 
+func UserById(id string) (User, error) {
+	var err error
+
+	result := User{}
+
+	switch database.ReadConfig().Type {
+	case database.TypeMySQL:
+		err = database.SQL.Get(&result, "SELECT id, password, status_id, first_name, last_name FROM user WHERE id = ? LIMIT 1", id)
+	case database.TypeMongoDB:
+
+	case database.TypeBolt:
+
+	default:
+		err = ErrCode
+	}
+
+	return result, standardizeError(err)
+}
+
 // UserCreate creates user
 func UserCreate(firstName, lastName, email, password string) error {
 	var err error

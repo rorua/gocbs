@@ -3,9 +3,10 @@
 {{define "content"}}
 <div class="container">
 	<div class="page-header">
-		<h1>Hello, {{.first_name}}</h1>
+		<h1>Приветствую, {{.first_name}} {{.last_name}} </h1>
 	</div>
-	<p>Нажмите {{LINK "notepad" "сюда"}} для просмотра заметок.</p>
+    <p>Нажмите {{LINK "clients" "сюда"}} для просмотра клиентов.</p>
+    <img src="/static/img/accountant.jpg" class="img-responsive" alt="">
 	{{template "footer" .}}
 </div>
 {{end}}
