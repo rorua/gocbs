@@ -84,7 +84,7 @@ func AccountCreatePOST(w http.ResponseWriter, r *http.Request)  {
 	if validate, missingField := view.Validate(r, []string{"number", "name", "type"}); !validate {
 		sess.AddFlash(view.Flash{"Field missing: " + missingField, view.FlashError})
 		sess.Save(r, w)
-		NotepadCreateGET(w, r)
+		AccountCreateGET(w, r)
 		return
 	}
 

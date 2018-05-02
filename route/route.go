@@ -46,20 +46,20 @@ func redirectToHTTPS(w http.ResponseWriter, req *http.Request) {
 func routes() *httprouter.Router {
 	r := httprouter.New()
 
-	// Set 404 handler
+	// 404
 	r.NotFound = alice.
 		New().
 		ThenFunc(controller.Error404)
 
-	// Serve static files, no directory browsing
+	// Статичные файлы
 	r.GET("/static/*filepath", hr.Handler(alice.
 		New().
 		ThenFunc(controller.Static)))
 
-	// Home page
+	// Главная страница
 	r.GET("/", hr.Handler(alice.New().ThenFunc(controller.IndexGET)))
 
-	// Login
+	// Логин
 	r.GET("/login", hr.Handler(alice.
 		New(acl.DisallowAuth).
 		ThenFunc(controller.LoginGET)))
@@ -70,7 +70,7 @@ func routes() *httprouter.Router {
 		New().
 		ThenFunc(controller.LogoutGET)))
 
-	// Register
+	// Регистрация
 	r.GET("/register", hr.Handler(alice.
 		New(acl.DisallowAuth).
 		ThenFunc(controller.RegisterGET)))
@@ -103,7 +103,7 @@ func routes() *httprouter.Router {
 		New(acl.DisallowAnon).
 		ThenFunc(controller.NotepadDeleteGET)))
 
-	// Accounts
+	// Счета
 	r.GET("/accounts", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.AccountIndexGET)))
@@ -121,6 +121,12 @@ func routes() *httprouter.Router {
 	r.GET("/clients", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.ClientIndexGET)))
+	r.GET("/clients/create", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.ClientCreateGET)))
+	r.POST("/clients/create", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.ClientCreatePOST)))
 
 	// Transactions
 	r.GET("/transactions", hr.Handler(alice.

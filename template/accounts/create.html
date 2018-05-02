@@ -1,10 +1,10 @@
-{{define "title"}}Add Note{{end}}
+{{define "title"}}Добавить счет{{end}}
 {{define "head"}}{{end}}
 {{define "content"}}
 
 <div class="container">
     <div class="page-header">
-        <h1>{{template "title" .}}</h1>
+        <h1>Добавить счет</h1>
     </div>
 
     <form id="form" method="post">
@@ -33,7 +33,7 @@
         <a title="Save" class="btn btn-success" role="submit" onclick="document.getElementById('form').submit();">
             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Сохранить
         </a>
-        <a title="Back to Notepad" class="btn btn-danger" role="button" href="{{$.BaseURI}}notepad">
+        <a title="Back to Notepad" class="btn btn-danger" role="button" href="{{$.BaseURI}}accounts">
             <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Отмена
         </a>
 

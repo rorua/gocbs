@@ -108,7 +108,6 @@ create table accounts (
   type enum('active', 'passive') null,
   created_at timestamp null,
   updated_at timestamp null,
-  purpose varchar(255) null,
 
   constraint accounts_number_unique unique (number)
 );

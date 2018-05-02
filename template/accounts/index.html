@@ -3,13 +3,13 @@
 {{define "content"}}
 <div class="container">
     <div class="page-header">
+        <p class="pull-right">
+            <a title="Add Note" class="btn btn-primary" role="button" href="{{$.BaseURI}}accounts/create">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить счет
+            </a>
+        </p>
         <h1>План счетов</h1>
     </div>
-    <p>
-        <a title="Add Note" class="btn btn-primary" role="button" href="{{$.BaseURI}}accounts/create">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить счет
-        </a>
-    </p>
 
     <table class="table table-hover">
         <thead>
@@ -25,13 +25,14 @@
         <tbody>
         {{range $n := .accounts}}
         <tr>
-            <td>{{.ID}}</td>
+            <td><i class="glyphicon glyphicon-briefcase"></i></td>
             <td>{{.Number}}</td>
             <td>{{.Name}}</td>
             <td>{{.Type}}</td>
             <td>{{.CreatedAt | PRETTYTIME}}</td>
             <td>
                 <a href="{{$.BaseURI}}accounts/account/{{.ID}}" class="btn btn-info" role="button">
+                    <i class="glyphicon glyphicon-folder-open"></i>
                     Просмотреть проводки
                 </a>
                 <a href="#" class="btn btn-warning" role="button">

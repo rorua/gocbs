@@ -1,14 +1,34 @@
 {{if eq .AuthLevel "auth"}}
 
 <ul class="nav navbar-nav navbar-right">
-    <li><a href="{{.BaseURI}}clients">Клиенты</a></li>
-    <li><a href="{{.BaseURI}}accounts">Счета</a></li>
+    <li>
+        <a href="{{.BaseURI}}clients">
+            <i class="glyphicon glyphicon-user"></i>
+            Клиенты
+        </a>
+    </li>
+    <li>
+        <a href="{{.BaseURI}}accounts">
+            <i class="glyphicon glyphicon-briefcase"></i>
+            Счета
+        </a>
+    </li>
     <li><a href="{{.BaseURI}}transactions">Проводки</a></li>
     <li><a href="{{.BaseURI}}account-balances">Балансы счетов</a></li>
     <li><a href="{{.BaseURI}}reports">ОТЧЕТЫ</a></li>
-    <li><a href="{{.BaseURI}}notepad">Заметки</a></li>
-    <li><a href="{{.BaseURI}}about">О проекте</a></li>
-    <li><a href="{{.BaseURI}}logout">Выход</a></li>
+    {{/*<li><a href="{{.BaseURI}}notepad">Заметки</a></li>*/}}
+    <li>
+        <a href="{{.BaseURI}}about">
+            <i class="glyphicon glyphicon-info-sign"></i>
+            О проекте
+        </a>
+    </li>
+    <li>
+        <a href="{{.BaseURI}}logout">
+            <i class="glyphicon glyphicon-off"></i>
+            Выход
+        </a>
+    </li>
 </ul>
 
 {{else}}

@@ -15,7 +15,6 @@ type Account struct {
 	Number 	  string        `db:"number"`
 	Name 	  string        `db:"name"`
 	Type 	  string        `db:"type"`
-	Purpose   string        `db:"purpose"`
 	CreatedAt time.Time     `db:"created_at"`
 	UpdatedAt time.Time     `db:"updated_at"`
 	Deleted   uint8         `db:"deleted"`
@@ -44,7 +43,7 @@ func (u *Account) AccountName() string {
 func AccountByID(accountID string) (Account, error) {
 	var err error
 	result := Account{}
-	err = database.SQL.Get(&result, "SELECT id, number, name, type, purpose, created_at FROM accounts WHERE id = ? LIMIT 1", accountID)
+	err = database.SQL.Get(&result, "SELECT id, number, name, type, created_at FROM accounts WHERE id = ? LIMIT 1", accountID)
 	return result, standardizeError(err)
 }
 
@@ -52,16 +51,16 @@ func AccountByID(accountID string) (Account, error) {
 func AccountsAll() ([]Account, error) {
 	var err error
 	var result []Account
-	err = database.SQL.Select(&result, "SELECT id, number, name, type, purpose, created_at FROM accounts")
+	err = database.SQL.Select(&result, "SELECT id, number, name, type, created_at FROM accounts")
 	return result, standardizeError(err)
 }
 
-// NoteCreate creates a note
-func AccountCreate(name string, number string, type_name string) error {
+// AccountCreate creates a account
+func AccountCreate(name string, number string, typeName string) error {
 	var err error
 	now := time.Now()
 
-	_, err = database.SQL.Exec("INSERT INTO accounts (name, type, number, created_at, updated_at) VALUES (?,?,?,?,?)", name, type_name, number, now, now)
+	_, err = database.SQL.Exec("INSERT INTO accounts (name, type, number, created_at, updated_at) VALUES (?,?,?,?,?)", name, typeName, number, now, now)
 	return standardizeError(err)
 }
 //

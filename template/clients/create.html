@@ -1,29 +1,68 @@
-{{define "title"}}Add Note{{end}}
+{{define "title"}}Создать Клиента{{end}}
 {{define "head"}}{{end}}
 {{define "content"}}
 
 <div class="container">
-	<div class="page-header">
-		<h1>{{template "title" .}}</h1>
-	</div>
-	
-	<form id="form" method="post">
-		<div class="form-group">
-			<label for="note">Note</label>
-			<div><textarea rows="5" class="form-control" id="note" name="note" placeholder="Type your note here..." value="" /></textarea></div>
-		</div>
-		
-		<a title="Save" class="btn btn-success" role="submit" onclick="document.getElementById('form').submit();">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
-		</a>
-		<a title="Back to Notepad" class="btn btn-danger" role="button" href="{{$.BaseURI}}notepad">
-			<span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Back
-		</a>
-		
-		<input type="hidden" name="token" value="{{.token}}">
-	</form>
-	
-	{{template "footer" .}}
+    <div class="page-header">
+        <h1>{{template "title" .}}</h1>
+    </div>
+
+    <form id="form" method="post">
+
+        <div class="form-group">
+            <label for="name">Название</label>
+            <div>
+                <input type="text" name="name" id="name" class="form-control" placeholder="..." required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="full_name">Полное Имя</label>
+            <div>
+                <input type="text" name="full_name" id="full_name" class="form-control" placeholder="..." required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="type">Тип клиента</label>
+            <div>
+                <select name="client_type_id" id="type" class="form-control" required>
+                    <option value="1">ФЛ</option>
+                    <option value="2">ЮЛ</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <div>
+                <input type="email" name="email" id="email" class="form-control" placeholder="..." required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="phone_number">Tel</label>
+            <div>
+                <input type="number" name="phone" id="phone_number" class="form-control" placeholder="..." required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="address">Адрес</label>
+            <div>
+                <input type="text" name="address" id="address" class="form-control" placeholder="..." required>
+            </div>
+        </div>
+
+        <a title="Save" class="btn btn-success" role="submit" onclick="document.getElementById('form').submit();">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Создать
+        </a>
+        <a title="Back to Notepad" class="btn btn-danger" role="button" href="{{$.BaseURI}}clients">
+            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Назад
+        </a>
+
+        <input type="hidden" name="token" value="{{.token}}">
+    </form>
+
+{{template "footer" .}}
 </div>
 
 {{end}}
