@@ -107,6 +107,15 @@ func routes() *httprouter.Router {
 	r.GET("/accounts", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.AccountIndexGET)))
+	r.GET("/accounts/create", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.AccountCreateGET)))
+	r.POST("/accounts/create", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.AccountCreatePOST)))
+	r.GET("/accounts/account/:id", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.AccountShowGET)))
 
 	// Clients
 	r.GET("/clients", hr.Handler(alice.

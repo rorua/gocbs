@@ -144,7 +144,7 @@ create table bank_accounts (
   id int(10) unsigned not null auto_increment primary key,
   account_id int(10) unsigned not null,
   client_id int(10) unsigned not null,
-  currency_id int(10) unsigned not null,
+  currency_id tinyint(1) unsigned not null,
 
   constraint f_client_bank_acc foreign key (client_id) references clients (id),
   constraint f_acc_bank_acc foreign key (account_id) references accounts (id),
