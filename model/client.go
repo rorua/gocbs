@@ -45,7 +45,7 @@ func (u *Client) ClientFullName() string {
 func ClientByID(clientID string) (Client, error) {
 	var err error
 	result := Client{}
-	err = database.SQL.Get(&result, "SELECT clients.id, clients.name, full_name, phone, email, address, t.name, client_type_id, created_at FROM clients inner join client_types t on clients.client_type_id = t.id WHERE clients.id = ? LIMIT 1", clientID)
+	err = database.SQL.Get(&result, "SELECT clients.id, clients.name as name, full_name, phone_number, email, address, t.name as type, client_type_id, created_at FROM clients inner join client_types t on clients.client_type_id = t.id WHERE clients.id = ? LIMIT 1", clientID)
 	return result, standardizeError(err)
 }
 

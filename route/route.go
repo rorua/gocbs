@@ -121,6 +121,9 @@ func routes() *httprouter.Router {
 	r.GET("/clients", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.ClientIndexGET)))
+	r.GET("/clients/client/:id", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.ClientShowGET)))
 	r.GET("/clients/create", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.ClientCreateGET)))

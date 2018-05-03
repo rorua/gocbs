@@ -15,6 +15,8 @@ import (
 	"github.com/josephspurrier/csrfbanana"
 	"gocbs/model"
 	"log"
+	"github.com/julienschmidt/httprouter"
+	"github.com/gorilla/context"
 )
 
 // ClientReadGET displays the notes in the notepad
@@ -85,5 +87,29 @@ func ClientCreatePOST(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Display the same page
-	AccountCreateGET(w, r)
+	ClientCreateGET(w, r)
+}
+
+func ClientShowGET(w http.ResponseWriter, r *http.Request) {
+	// Get session
+	sess := session.Instance(r)
+
+	userID := fmt.Sprintf("%s", sess.Values["id"])
+	var params httprouter.Params
+	params = context.Get(r, "params").(httprouter.Params)
+	clientID := params.ByName("id")
+
+	client, err := model.ClientByID(clientID)
+	if err != nil {
+		log.Println(err)
+		client = model.Client{}
+	}
+
+	// Display the view
+	v := view.New(r)
+	v.Name = "clients/show"
+	v.Vars["first_name"] = sess.Values["first_name"]
+	v.Vars["user_id"] = userID
+	v.Vars["client"] = client
+	v.Render(w)
 }

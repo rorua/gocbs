@@ -1,23 +1,37 @@
-{{define "title"}}Счета{{end}}
+{{define "title"}} {{.client.Name}} {{end}}
 {{define "head"}}{{end}}
 {{define "content"}}
 <div class="container">
-	<div class="page-header">
-		<h1>Дерево счетов</h1>
-	</div>
-	<p>
-		<a title="Add Note" class="btn btn-primary" role="button" href="{{$.BaseURI}}accounts/create">
-			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить счет
-		</a>
-	</p>
+    <div class="page-header">
+        <p class="pull-right">
+            <a title="Add Note" class="btn btn-primary" role="button" href="{{$.BaseURI}}#">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить банковский счет
+            </a>
+        </p>
+        <h1>{{.client.FullName}}</h1>
+    </div>
 
-	<div class="panel panel-default">
-		<div class="panel-body">
-			список счетов
-		</div>
-	</div>
+    <div class="panel panel-default">
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Клиент</th>
+                <td>{{.client.Type}}</td>
 
-	{{template "footer" .}}
+                <th>Email</th>
+                <td>{{.client.Email}}</td>
+            </tr>
+            <tr>
+                <th>Адрес</th>
+                <td>{{.client.Address}}</td>
+                <th>Телефон</th>
+                <td>{{.client.Phone}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{{template "footer" .}}
 </div>
 {{end}}
 {{define "foot"}}{{end}}
