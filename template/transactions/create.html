@@ -1,29 +1,63 @@
-{{define "title"}}Add Note{{end}}
+{{define "title"}}Добавить проводку{{end}}
 {{define "head"}}{{end}}
 {{define "content"}}
 
 <div class="container">
-	<div class="page-header">
-		<h1>{{template "title" .}}</h1>
-	</div>
-	
-	<form id="form" method="post">
-		<div class="form-group">
-			<label for="note">Note</label>
-			<div><textarea rows="5" class="form-control" id="note" name="note" placeholder="Type your note here..." value="" /></textarea></div>
-		</div>
-		
-		<a title="Save" class="btn btn-success" role="submit" onclick="document.getElementById('form').submit();">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
-		</a>
-		<a title="Back to Notepad" class="btn btn-danger" role="button" href="{{$.BaseURI}}notepad">
-			<span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Back
-		</a>
-		
-		<input type="hidden" name="token" value="{{.token}}">
-	</form>
-	
-	{{template "footer" .}}
+    <div class="page-header">
+        <h1>{{template "title" .}}</h1>
+    </div>
+
+    <form id="form" method="post">
+
+        <div class="form-group">
+            <label for="credit_account_id">Кредит</label>
+            <select name="credit_account_id" id="credit_account_id" class="form-control" required>
+            {{range $n := .accounts}}
+                <option value="{{.ID}}">{{.Number}} ({{.Name}})</option>
+            {{end}}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="debit_account_id">Дебит</label>
+            <select name="debit_account_id" id="debit_account_id" class="form-control" required>
+            {{range $n := .accounts}}
+                <option value="{{.ID}}">{{.Number}} ({{.Name}})</option>
+            {{end}}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="amount">Сумма</label>
+            <input type="number" class="form-control" name="amount" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Дата</label>
+            <input type="date" class="form-control" name="date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Описание</label>
+            <textarea rows="5" class="form-control" id="description" name="description" placeholder="..." value="" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="clients">Клиент</label>
+            <input type="text" class="form-control" name="clients">
+        </div>
+
+        <a title="Save" class="btn btn-success" role="submit" onclick="document.getElementById('form').submit();">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Сохранить
+        </a>
+        <a title="Back to Notepad" class="btn btn-danger" role="button" href="{{$.BaseURI}}notepad">
+            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Отмена
+        </a>
+
+        <input type="hidden" name="token" value="{{.token}}">
+    </form>
+
+{{template "footer" .}}
 </div>
 
 {{end}}

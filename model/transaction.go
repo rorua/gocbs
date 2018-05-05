@@ -1,198 +1,81 @@
 package model
+
+import (
+	"time"
+
+	"fmt"
+	"app/shared/database"
+)
+
+// *****************************************************************************
+// Transaction
+// *****************************************************************************
+type Transaction struct {
+	ID              	uint32 		`db:"id"`
+	CreditAccountId 	uint32 		`db:"credit_account_id"`
+	CreditAccount	 	string 		`db:"credit_account"`
+	DebitAccountId 		uint32 		`db:"debit_account_id"`
+	DebitAccount	 	string 		`db:"debit_account"`
+	Description		 	string 		`db:"description"`
+	Clients			 	string 		`db:"clients"`
+	Amount	  			float64 	`db:"amount"`
+	Date	  			time.Time   `db:"date"`
+	CreatedAt 			time.Time   `db:"created_at"`
+	UpdatedAt 			time.Time   `db:"updated_at"`
+	Deleted   			uint8       `db:"deleted"`
+}
+
+// TransactionID returns the account id
+func (u *Transaction) TransactionID() string {
+	r := ""
+	r = fmt.Sprintf("%v", u.ID)
+	return r
+}
+
+// TransactionByID gets account by ID
+func TransactionByID(userID string, transactionID string) (Transaction, error) {
+	var err error
+	result := Transaction{}
+	err = database.SQL.Get(&result, "SELECT id, credit_account_id, debit_account_id, amount, date, created_at, description, clients FROM transactions WHERE id = ? LIMIT 1", transactionID)
+	return result, standardizeError(err)
+}
+
+// NotesByUserID gets all notes for a user
+func TransactionsAll() ([]Transaction, error) {
+	var err error
+	var result []Transaction
+	err = database.SQL.Select(&result, `
+		select 
+			t.id as id, 
+			credit_account_id, 
+			c.number as credit_account, 
+			debit_account_id, 
+			d.number as debit_account, 
+			amount, 
+			clients, 
+			date, 
+			t.created_at as created_at, 
+			t.updated_at as updated_at, 
+			description  
+		from transactions t
+		inner join accounts c on t.credit_account_id = c.id
+		inner join accounts d on t.debit_account_id = d.id
+	`)
+	return result, standardizeError(err)
+}
 //
-//import (
-//	"time"
-//
-//	"fmt"
-//	"app/shared/database"
-//)
-//
-//// *****************************************************************************
-//// Account
-//// *****************************************************************************
-//type Account struct {
-//	ID        uint32        `db:"id"`
-//	Number 	  string        `db:"number"`
-//	Name 	  string        `db:"name"`
-//	Type 	  string        `db:"type"`
-//	Purpose   string        `db:"purpose"`
-//	CreatedAt time.Time     `db:"created_at"`
-//	UpdatedAt time.Time     `db:"updated_at"`
-//	Deleted   uint8         `db:"deleted"`
-//}
-//
-//// AccountID returns the account id
-//func (u *Account) AccountID() string {
-//	r := ""
-//	r = fmt.Sprintf("%v", u.ID)
-//	return r
-//}
-//
-//func (u *Account) AccountNumber() string {
-//	r := ""
-//	r = fmt.Sprintf("%v", u.Number)
-//	return r
-//}
-//
-//func (u *Account) AccountName() string {
-//	r := ""
-//	r = fmt.Sprintf("%v", u.Name)
-//	return r
-//}
-//
-//// AccountByID gets account by ID
-//func AccountByID(userID string, accountID string) (Account, error) {
-//	var err error
-//	result := Account{}
-//	err = database.SQL.Get(&result, "SELECT id, number, name, type, purpose, created_at FROM accounts WHERE id = ? LIMIT 1", accountID)
-//	return result, standardizeError(err)
-//}
-//
-//// NotesByUserID gets all notes for a user
-//func AccountsAll() ([]Account, error) {
-//	var err error
-//	var result []Account
-//	err = database.SQL.Select(&result, "SELECT id, number, name, type, purpose, created_at FROM accounts")
-//	return result, standardizeError(err)
-//}
-////
-////// NoteCreate creates a note
-////func NoteCreate(content string, userID string) error {
-////	var err error
-////
-////	now := time.Now()
-////
-////	switch database.ReadConfig().Type {
-////	case database.TypeMySQL:
-////		_, err = database.SQL.Exec("INSERT INTO note (content, user_id) VALUES (?,?)", content, userID)
-////	case database.TypeMongoDB:
-////		if database.CheckConnection() {
-////			// Create a copy of mongo
-////			session := database.Mongo.Copy()
-////			defer session.Close()
-////			c := session.DB(database.ReadConfig().MongoDB.Database).C("note")
-////
-////			note := &Note{
-////				ObjectID:  bson.NewObjectId(),
-////				Content:   content,
-////				UserID:    bson.ObjectIdHex(userID),
-////				CreatedAt: now,
-////				UpdatedAt: now,
-////				Deleted:   0,
-////			}
-////			err = c.Insert(note)
-////		} else {
-////			err = ErrUnavailable
-////		}
-////	case database.TypeBolt:
-////		note := &Note{
-////			ObjectID:  bson.NewObjectId(),
-////			Content:   content,
-////			UserID:    bson.ObjectIdHex(userID),
-////			CreatedAt: now,
-////			UpdatedAt: now,
-////			Deleted:   0,
-////		}
-////
-////		err = database.Update("note", userID+note.ObjectID.Hex(), &note)
-////	default:
-////		err = ErrCode
-////	}
-////
-////	return standardizeError(err)
-////}
-////
-////// NoteUpdate updates a note
-////func NoteUpdate(content string, userID string, noteID string) error {
-////	var err error
-////
-////	now := time.Now()
-////
-////	switch database.ReadConfig().Type {
-////	case database.TypeMySQL:
-////		_, err = database.SQL.Exec("UPDATE note SET content=? WHERE id = ? AND user_id = ? LIMIT 1", content, noteID, userID)
-////	case database.TypeMongoDB:
-////		if database.CheckConnection() {
-////			// Create a copy of mongo
-////			session := database.Mongo.Copy()
-////			defer session.Close()
-////			c := session.DB(database.ReadConfig().MongoDB.Database).C("note")
-////			var note Note
-////			note, err = NoteByID(userID, noteID)
-////			if err == nil {
-////				// Confirm the owner is attempting to modify the note
-////				if note.UserID.Hex() == userID {
-////					note.UpdatedAt = now
-////					note.Content = content
-////					err = c.UpdateId(bson.ObjectIdHex(noteID), &note)
-////				} else {
-////					err = ErrUnauthorized
-////				}
-////			}
-////		} else {
-////			err = ErrUnavailable
-////		}
-////	case database.TypeBolt:
-////		var note Note
-////		note, err = NoteByID(userID, noteID)
-////		if err == nil {
-////			// Confirm the owner is attempting to modify the note
-////			if note.UserID.Hex() == userID {
-////				note.UpdatedAt = now
-////				note.Content = content
-////				err = database.Update("note", userID+note.ObjectID.Hex(), &note)
-////			} else {
-////				err = ErrUnauthorized
-////			}
-////		}
-////	default:
-////		err = ErrCode
-////	}
-////
-////	return standardizeError(err)
-////}
-////
-////// NoteDelete deletes a note
-////func NoteDelete(userID string, noteID string) error {
-////	var err error
-////
-////	switch database.ReadConfig().Type {
-////	case database.TypeMySQL:
-////		_, err = database.SQL.Exec("DELETE FROM note WHERE id = ? AND user_id = ?", noteID, userID)
-////	case database.TypeMongoDB:
-////		if database.CheckConnection() {
-////			// Create a copy of mongo
-////			session := database.Mongo.Copy()
-////			defer session.Close()
-////			c := session.DB(database.ReadConfig().MongoDB.Database).C("note")
-////
-////			var note Note
-////			note, err = NoteByID(userID, noteID)
-////			if err == nil {
-////				// Confirm the owner is attempting to modify the note
-////				if note.UserID.Hex() == userID {
-////					err = c.RemoveId(bson.ObjectIdHex(noteID))
-////				} else {
-////					err = ErrUnauthorized
-////				}
-////			}
-////		} else {
-////			err = ErrUnavailable
-////		}
-////	case database.TypeBolt:
-////		var note Note
-////		note, err = NoteByID(userID, noteID)
-////		if err == nil {
-////			// Confirm the owner is attempting to modify the note
-////			if note.UserID.Hex() == userID {
-////				err = database.Delete("note", userID+note.ObjectID.Hex())
-////			} else {
-////				err = ErrUnauthorized
-////			}
-////		}
-////	default:
-////		err = ErrCode
-////	}
-////
-////	return standardizeError(err)
-////}
+// NoteCreate creates a note
+func TransactionCreate(creditAccountId, debitAccountId, description, clients, date, amount string) error {
+
+	var err error
+	now := time.Now()
+
+	_, err = database.SQL.Exec(`
+			INSERT INTO transactions (
+				credit_account_id, debit_account_id, amount, date, description, clients, created_at, updated_at
+			)
+			VALUES (?,?,?,?,?,?,?,?)
+		`, creditAccountId, debitAccountId, amount, date, description, clients, now, now)
+
+	return standardizeError(err)
+}

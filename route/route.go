@@ -135,6 +135,12 @@ func routes() *httprouter.Router {
 	r.GET("/transactions", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.TransactionIndexGET)))
+	r.GET("/transactions/create", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.TransactionCreateGET)))
+	r.POST("/transactions/create", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.TransactionCreatePOST)))
 
 
 	// Enable Pprof

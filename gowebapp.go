@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"runtime"
-
 	"gocbs/route"
 	"app/shared/database"
 	"app/shared/email"
@@ -15,6 +14,8 @@ import (
 	"app/shared/session"
 	"app/shared/view"
 	"app/shared/view/plugin"
+	"time"
+	"html/template"
 )
 
 // *****************************************************************************
@@ -49,6 +50,7 @@ func main() {
 		plugin.TagHelper(config.View),
 		plugin.NoEscape(),
 		plugin.PrettyTime(),
+		PrettyDate(),
 		recaptcha.Plugin())
 
 	// Start the listener
@@ -76,4 +78,14 @@ type configuration struct {
 // ParseJSON unmarshals bytes to structs
 func (c *configuration) ParseJSON(b []byte) error {
 	return json.Unmarshal(b, &c)
+}
+
+func PrettyDate() template.FuncMap {
+	f := make(template.FuncMap)
+
+	f["PRETTYDATE"] = func(t time.Time) string {
+		return t.Format("01/02/2006")
+	}
+
+	return f
 }
