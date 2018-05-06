@@ -57,12 +57,19 @@ func AccountShowGET(w http.ResponseWriter, r *http.Request) {
 		account = model.Account{}
 	}
 
+	transactions, err := model.TransactionsByAccountId(accountID)
+	if err != nil {
+		log.Println(err)
+		transactions = []model.Transaction{}
+	}
+
 	// Display the view
 	v := view.New(r)
 	v.Name = "accounts/show"
 	v.Vars["first_name"] = sess.Values["first_name"]
 	v.Vars["user_id"] = userID
 	v.Vars["account"] = account
+	v.Vars["transactions"] = transactions
 	v.Render(w)
 }
 

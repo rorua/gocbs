@@ -32,7 +32,7 @@ func (u *Transaction) TransactionID() string {
 	return r
 }
 
-// TransactionByID gets account by ID
+// TransactionByID gets transaction by ID
 func TransactionByID(userID string, transactionID string) (Transaction, error) {
 	var err error
 	result := Transaction{}
@@ -40,7 +40,33 @@ func TransactionByID(userID string, transactionID string) (Transaction, error) {
 	return result, standardizeError(err)
 }
 
-// NotesByUserID gets all notes for a user
+// transactions by account id
+func TransactionsByAccountId(accountID string) ([]Transaction, error) {
+	var err error
+	var result []Transaction
+	err = database.SQL.Select(&result, `
+		select 
+			t.id as id, 
+			credit_account_id, 
+			c.number as credit_account, 
+			debit_account_id, 
+			d.number as debit_account, 
+			amount, 
+			clients, 
+			date, 
+			t.created_at as created_at, 
+			t.updated_at as updated_at, 
+			description  
+		from transactions t
+		inner join accounts c on t.credit_account_id = c.id
+		inner join accounts d on t.debit_account_id = d.id
+		where t.credit_account_id = ?
+			or t.debit_account_id = ?
+	`, accountID, accountID)
+	return result, standardizeError(err)
+}
+
+// Gets all transactions
 func TransactionsAll() ([]Transaction, error) {
 	var err error
 	var result []Transaction

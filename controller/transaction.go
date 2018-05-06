@@ -79,7 +79,7 @@ func TransactionCreatePOST(w http.ResponseWriter, r *http.Request) {
 		sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
 		sess.Save(r, w)
 	} else {
-		sess.AddFlash(view.Flash{"Счет  Добавлен!", view.FlashSuccess})
+		sess.AddFlash(view.Flash{"Проводка Добавлена!", view.FlashSuccess})
 		sess.Save(r, w)
 		http.Redirect(w, r, "/transactions", http.StatusFound)
 		return
