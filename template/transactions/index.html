@@ -3,11 +3,21 @@
 {{define "content"}}
 <div class="container">
     <div class="page-header">
+        <form action="" class="form-inline pull-right" style="margin-left: 10px">
+            <button class="btn btn-danger" type="submit">Экспорт</button>
+        </form>
         <p class="pull-right">
             <a title="Add Note" class="btn btn-primary" role="button" href="{{$.BaseURI}}transactions/create">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить Проводку
             </a>
         </p>
+        <form action="" class="form-inline pull-right" style="margin-right: 10px">
+            <div class="form-group">
+                <label>CSV</label>
+                <input type="file" class="form-group">
+            </div>
+            <button class="btn btn-success" type="submit">Импорт</button>
+        </form>
         <h1>Проводки</h1>
     </div>
 

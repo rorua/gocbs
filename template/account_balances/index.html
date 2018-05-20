@@ -1,0 +1,55 @@
+{{define "title"}}Балансы счетов{{end}}
+{{define "head"}}{{end}}
+{{define "content"}}
+<div class="container">
+    <div class="page-header">
+        <form action="" class="form-inline pull-right">
+            <div class="form-group">
+                <label>ОСВ</label>
+                <input type="date" class="form-group" name="date">
+            </div>
+            <button class="btn btn-success" type="submit">Рассчитать</button>
+        </form>
+
+        <form action="" class="form-inline pull-right" style="margin-right: 100px">
+            <div class="form-group">
+                <label>ОСВ на</label>
+                <input type="date" class="form-group" name="date">
+            </div>
+            <button class="btn btn-info" type="submit">Показать</button>
+        </form>
+
+        <h1>Балансы счетов</h1>
+    </div>
+
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>Счет</th>
+            <th>Сальдо начальное</th>
+            <th>Обороты по дебету</th>
+            <th>Обороты по кредиту</th>
+            <th>Сальдо конечное</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $n := .accounts}}
+        <tr>
+            <td>
+                <a href="/accounts/account/{{.ID}}" target="_blank">
+                    {{.Number}}
+                </a>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {{end}}
+        </tbody>
+    </table>
+
+{{template "footer" .}}
+</div>
+{{end}}
+{{define "foot"}}{{end}}
