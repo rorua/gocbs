@@ -6,7 +6,7 @@
         <form action="" class="form-inline pull-right">
             <div class="form-group">
                 <label>ОСВ</label>
-                <input type="date" class="form-group" name="date">
+                <input type="date"  class="form-group" name="date">
             </div>
             <button class="btn btn-success" type="submit">Рассчитать</button>
         </form>
@@ -14,12 +14,12 @@
         <form action="" class="form-inline pull-right" style="margin-right: 100px">
             <div class="form-group">
                 <label>ОСВ на</label>
-                <input type="date" class="form-group" name="date">
+                <input type="date" value="{{.date}}" class="form-group" name="date">
             </div>
             <button class="btn btn-info" type="submit">Показать</button>
         </form>
 
-        <h1>Балансы счетов</h1>
+        <h1>Балансы счетов на </h1>
     </div>
 
     <table class="table table-hover table-bordered">
@@ -36,14 +36,14 @@
         {{range $n := .accounts}}
         <tr>
             <td>
-                <a href="/accounts/account/{{.ID}}" target="_blank">
+                <a href="/accounts/account/{{.AccountID}}" target="_blank">
                     {{.Number}}
                 </a>
             </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{.StartBalance}}</td>
+            <td>{{.CreditSum}}</td>
+            <td>{{.DebitSum}}</td>
+            <td>{{.EndBalance}}</td>
         </tr>
         {{end}}
         </tbody>

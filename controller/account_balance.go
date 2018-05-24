@@ -1,12 +1,10 @@
 package controller
 
 import (
-	"fmt"
 	//"log"
 	"net/http"
 
-	//"app/model"
-	"app/shared/session"
+
 	"app/shared/view"
 
 	//"github.com/gorilla/context"
@@ -19,22 +17,25 @@ import (
 // AccountGET displays the accounts
 func AccountBalanceIndexGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
-	sess := session.Instance(r)
+	//sess := session.Instance(r)
 
-	userID := fmt.Sprintf("%s", sess.Values["id"])
-
-	accounts, err := model.AccountsAll()
-	if err != nil {
-		log.Println(err)
-		accounts = []model.Account{}
+	date, ok := r.URL.Query()["date"]
+	dat := "2018-05-05"
+	if !ok {
+		log.Println("Url Param 'date' is missing")
+	} else {
+		dat = date[0]
 	}
 
-
+	accounts, err := model.AccountBalancesByDate(dat)
+	if err != nil {
+		log.Println(err)
+		accounts = []model.AccountBalance{}
+	}
 	// Display the view
 	v := view.New(r)
 	v.Name = "account_balances/index"
-	v.Vars["first_name"] = sess.Values["first_name"]
-	v.Vars["user_id"] = userID
+	v.Vars["date"] = dat
 	v.Vars["accounts"] = accounts
 	v.Render(w)
 }
