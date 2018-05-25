@@ -142,10 +142,13 @@ func routes() *httprouter.Router {
 		New(acl.DisallowAnon).
 		ThenFunc(controller.TransactionCreatePOST)))
 
-	// Счета
+	// Балансы счетов
 	r.GET("/account-balances", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.AccountBalanceIndexGET)))
+	r.POST("/account-balances", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.AccountBalanceRestartPOST)))
 
 
 	// Enable Pprof

@@ -149,3 +149,15 @@ create table bank_accounts (
   constraint f_acc_bank_acc foreign key (account_id) references accounts (id),
   constraint f_curr_bank_acc foreign key (currency_id) references currencies (id)
 );
+
+CREATE TABLE `account_balances` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `start_balance` decimal(12,2) NOT NULL,
+  `debit_sum` decimal(12,2) NOT NULL,
+  `credit_sum` decimal(12,2) NOT NULL,
+  `end_balance` decimal(12,2) NOT NULL,
+  `account_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `account_balances_account_id_foreign` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE
+);
