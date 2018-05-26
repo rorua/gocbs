@@ -150,14 +150,32 @@ create table bank_accounts (
   constraint f_curr_bank_acc foreign key (currency_id) references currencies (id)
 );
 
-CREATE TABLE `account_balances` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `date` date NOT NULL,
-  `start_balance` decimal(12,2) NOT NULL,
-  `debit_sum` decimal(12,2) NOT NULL,
-  `credit_sum` decimal(12,2) NOT NULL,
-  `end_balance` decimal(12,2) NOT NULL,
-  `account_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `account_balances_account_id_foreign` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE
-);
+-- CREATE TABLE `account_balances` (
+--   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+--   `date` date NOT NULL,
+--   `start_balance` decimal(12,2) NOT NULL,
+--   `debit_sum` decimal(12,2) NOT NULL,
+--   `credit_sum` decimal(12,2) NOT NULL,
+--   `end_balance` decimal(12,2) NOT NULL,
+--   `account_id` int(10) unsigned NOT NULL,
+--   PRIMARY KEY (`id`),
+--   CONSTRAINT `account_balances_account_id_foreign` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE
+-- );
+
+create table account_balances (
+  id            int unsigned auto_increment primary key,
+  date          date           not null,
+  start_balance decimal(12, 2) not null,
+  debit_sum     decimal(12, 2) not null,
+  credit_sum    decimal(12, 2) not null,
+  end_balance   decimal(12, 2) not null,
+  account_id    int unsigned   not null,
+  constraint account_balances_account_id_foreign
+  foreign key (account_id) references accounts (id)
+    on delete cascade
+)
+  engine = InnoDB;
+
+create index account_balances_account_id_foreign
+  on account_balances (account_id);
+
