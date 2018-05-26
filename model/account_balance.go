@@ -123,24 +123,41 @@ func AccountBalanceCreate(date string) error {
 	}
 
 	fmt.Println(accountBalances)
+	//6. Полученный массив балансов счетов, вставить в таблицу account_balance, SQL запросом INSERT INTO….
 
 	return standardizeError(err)
 }
 
 /**
 1.	Вытащить из БД баланс счета на дату, за день до выбранной;
-2.	Пройтись по проводкам (таблица transactions) выбранной даты и по-считать сумму всех проводок, используя функцию SUM(amount), где дебетовый счет проводки равен нашему счету (WHERE debit_account_id=account_id). На этом шаге найдем обороты по деби-ту;
-3.	Пройтись по проводкам (таблица transactions) выбранной даты и по-считать сумму всех проводок, используя функцию SUM(amount), где кредитовый счет проводки равен нашему счету (WHERE cred-it_account_id = account_id). На этом шаге найдем обороты по креди-ту;
-4.	Посмотреть тип счета (полу type): Если счет пассивный (passive) пе-рейти к шагу (5), если счет активный (active) перейти к шагу (6);
-5.	Конечное сальдо равно начальному сальдо плюс обороты по креди-ту минус обороты по дебиту;
+2.	Пройтись по проводкам (таблица transactions) выбранной даты и посчитать сумму всех проводок, используя функцию SUM(amount), где дебетовый счет проводки равен нашему счету (WHERE debit_account_id=account_id). На этом шаге найдем обороты по дебиту;
+3.	Пройтись по проводкам (таблица transactions) выбранной даты и посчитать сумму всех проводок, используя функцию SUM(amount), где кредитовый счет проводки равен нашему счету (WHERE cred-it_account_id = account_id). На этом шаге найдем обороты по кредиту;
+4.	Посмотреть тип счета (полу type): Если счет пассивный (passive) перейти к шагу (5), если счет активный (active) перейти к шагу (6);
+5.	Конечное сальдо равно начальному сальдо плюс обороты по кредиту минус обороты по дебиту;
 6.	Конечное сальдо равно начальному сальдо плюс обороты по дебиту минус обороты по кредиту;
 7.	Вернуть массив
  */
 func calculateAccountBalance(date string, account Account) (float64, float64, float64, float64) {
 	//1.Вытащить из БД баланс счета на дату, за день до выбранной;
-	balance, _ := AccountBalanceAccount(account.ID, date)
+	balance, err := AccountBalanceAccount(account.ID, date)
+	if err != nil {
+		balance.EndBalance = 0
+	}
+	startBalance 	:= balance.EndBalance
+	//2. Пройтись по проводкам (таблица transactions) выбранной даты и посчитать сумму всех проводок
+	creditSum 		:= CreditAccountSum(account.ID, date)
+	//3. Пройтись по проводкам (таблица transactions) выбранной даты и посчитать сумму всех проводок
+	debitSum 		:= DebitAccountSum(account.ID, date)
 
-	fmt.Println(balance)
-	//fmt.Println(account)
-	return 0., 1., .2, 4
+	endBalance := 0.
+	//4. Посмотреть тип счета (полу type): Если счет пассивный (passive) перейти к шагу (5), если счет активный (active) перейти к шагу (6);
+	if account.Type == "passive" {
+		//5. Конечное сальдо равно начальному сальдо плюс обороты по кредиту минус обороты по дебиту;
+		endBalance = startBalance + creditSum - debitSum
+	} else {
+		//6. Конечное сальдо равно начальному сальдо плюс обороты по дебиту минус обороты по кредиту;
+		endBalance = startBalance + debitSum - creditSum
+	}
+	//fmt.Println(balance)
+	return startBalance, creditSum, debitSum, endBalance
 }

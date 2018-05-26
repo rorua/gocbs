@@ -66,6 +66,70 @@ func TransactionsByAccountId(accountID string) ([]Transaction, error) {
 	return result, standardizeError(err)
 }
 
+// transactions by account id
+func CreditAccountSum(accountID uint32, date string) float64 {
+	var err error
+	var result []Transaction
+	err = database.SQL.Select(&result, `
+		select 
+			t.id as id, 
+			credit_account_id, 
+			c.number as credit_account, 
+			debit_account_id, 
+			d.number as debit_account, 
+			amount, 
+			clients, 
+			date, 
+			t.created_at as created_at, 
+			t.updated_at as updated_at, 
+			description  
+		from transactions t
+		inner join accounts c on t.credit_account_id = c.id
+		inner join accounts d on t.debit_account_id = d.id
+		where t.credit_account_id = ? and t.date < ?
+	`, accountID, date)
+	if err != nil {
+		fmt.Println("---")
+	}
+	sum := 0.
+	for _, n := range result  {
+		sum += n.Amount
+	}
+	return sum
+}
+
+// transactions by account id
+func DebitAccountSum(accountID uint32, date string) float64 {
+	var err error
+	var result []Transaction
+	err = database.SQL.Select(&result, `
+		select 
+			t.id as id, 
+			credit_account_id, 
+			c.number as credit_account, 
+			debit_account_id, 
+			d.number as debit_account, 
+			amount, 
+			clients, 
+			date, 
+			t.created_at as created_at, 
+			t.updated_at as updated_at, 
+			description  
+		from transactions t
+		inner join accounts c on t.credit_account_id = c.id
+		inner join accounts d on t.debit_account_id = d.id
+		where t.debit_account_id = ? and t.date < ?
+	`, accountID, date)
+	if err != nil {
+		fmt.Println("---")
+	}
+	sum := 0.
+	for _, n := range result  {
+		sum += n.Amount
+	}
+	return sum
+}
+
 // Gets all transactions
 func TransactionsAll() ([]Transaction, error) {
 	var err error
