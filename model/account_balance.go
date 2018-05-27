@@ -93,7 +93,7 @@ func AccountBalanceCreate(date string) error {
 
 	//3. Удалить из таблицы account_balances все записи с выбранной даты и больше;
 	_, err = database.SQL.Exec("DELETE FROM account_balances WHERE date >= ?", date)
-	fmt.Println("deleting...")
+	//fmt.Println("deleting...")
 
 	//4. Достать все счета из таблицы accounts;
 	accounts, err := AccountsAll()
@@ -124,7 +124,23 @@ func AccountBalanceCreate(date string) error {
 
 	fmt.Println(accountBalances)
 	//6. Полученный массив балансов счетов, вставить в таблицу account_balance, SQL запросом INSERT INTO….
+	for _, balance := range accountBalances {
+		fmt.Println(balance)
+		err := AccountBalanceInsert(balance)
+		if err != nil {
+			log.Println(err)
+		}
+	}
 
+	return standardizeError(err)
+}
+func AccountBalanceInsert(balance AccountBalance) error {
+	var err error
+	_, err = database.SQL.Exec(`
+		INSERT INTO account_balances 
+			(account_id, start_balance, end_balance, credit_sum, debit_sum, date) 
+		VALUES (?,?,?,?,?,?)
+	`, balance.AccountID, balance.StartBalance, balance.EndBalance, balance.CreditSum, balance.DebitSum, balance.Date)
 	return standardizeError(err)
 }
 
