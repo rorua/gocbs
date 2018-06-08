@@ -14,12 +14,16 @@ import (
 	"log"
 	"app/shared/session"
 	"github.com/josephspurrier/csrfbanana"
+	"encoding/csv"
+	"bufio"
+	"io"
+	"fmt"
 )
 
 // TransactionIndexGET displays the Transactions
 func TransactionIndexGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
-	//sess := session.Instance(r)
+	sess := session.Instance(r)
 
 	transactions, err := model.TransactionsAll()
 	if err != nil {
@@ -30,6 +34,7 @@ func TransactionIndexGET(w http.ResponseWriter, r *http.Request) {
 	v := view.New(r)
 	v.Name = "transactions/index"
 	v.Vars["transactions"] = transactions
+	v.Vars["token"] = csrfbanana.Token(w, r, sess)
 	v.Render(w)
 }
 
@@ -87,5 +92,63 @@ func TransactionCreatePOST(w http.ResponseWriter, r *http.Request) {
 
 	// Display the same page
 	TransactionCreateGET(w, r)
+
+}
+
+
+func TransactionCSV(w http.ResponseWriter, r *http.Request) {
+	// Get session
+	sess := session.Instance(r)
+
+	//r.ParseMultipartForm(32 << 20)
+	file, _, err := r.FormFile("csv")
+	if err != nil {
+		fmt.Println(err)
+		sess.AddFlash(view.Flash{"Field missing: CSV" , view.FlashError})
+		sess.Save(r, w)
+		http.Redirect(w, r, "/transactions", http.StatusFound)
+		return
+	}
+
+	rd := csv.NewReader(bufio.NewReader(file))
+
+	for {
+		record, err := rd.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		//credit, _ := model.AccountByNumber(record[0])
+		credit, err := model.AccountByNumber(record[0])
+		if err != nil {
+			log.Println(err)
+			credit = model.Account{}
+		}
+		debit, err := model.AccountByNumber(record[1])
+		if err != nil {
+			log.Println(err)
+			debit = model.Account{}
+		}
+
+		amount 		:= record[2]
+		date 		:= record[3]
+		client 		:= record[4]
+		desc 		:= record[5]
+
+		creditId 	:= fmt.Sprint(credit.ID)
+		debitId 	:= fmt.Sprint(debit.ID)
+
+		ok := model.TransactionCreate(creditId, debitId, desc, client, date, amount)
+		if err != nil {
+			log.Println(ok)
+		}
+
+	}
+
+	// Display the same page
+	TransactionIndexGET(w, r)
 
 }

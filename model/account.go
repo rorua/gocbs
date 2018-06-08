@@ -47,6 +47,13 @@ func AccountByID(accountID string) (Account, error) {
 	return result, standardizeError(err)
 }
 
+func AccountByNumber(number string) (Account, error) {
+	var err error
+	result := Account{}
+	err = database.SQL.Get(&result, "SELECT id, number, name, type, created_at FROM accounts WHERE number = ? LIMIT 1", number)
+	return result, standardizeError(err)
+}
+
 // NotesByUserID gets all notes for a user
 func AccountsAll() ([]Account, error) {
 	var err error

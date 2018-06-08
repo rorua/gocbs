@@ -135,6 +135,9 @@ func routes() *httprouter.Router {
 	r.GET("/transactions", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.TransactionIndexGET)))
+	r.POST("/transactions/csv", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.TransactionCSV)))
 	r.GET("/transactions/create", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.TransactionCreateGET)))
