@@ -2,20 +2,20 @@ package main
 
 import (
 	"encoding/json"
+	"gocbs/app/database"
+	"gocbs/app/email"
+	"gocbs/app/jsonconfig"
+	"gocbs/app/recaptcha"
+	"gocbs/app/server"
+	"gocbs/app/session"
+	"gocbs/app/view"
+	"gocbs/app/view/plugin"
+	"gocbs/route"
+	"html/template"
 	"log"
 	"os"
 	"runtime"
-	"gocbs/route"
-	"app/shared/database"
-	"app/shared/email"
-	"app/shared/jsonconfig"
-	"app/shared/recaptcha"
-	"app/shared/server"
-	"app/shared/session"
-	"app/shared/view"
-	"app/shared/view/plugin"
 	"time"
-	"html/template"
 )
 
 // *****************************************************************************

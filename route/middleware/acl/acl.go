@@ -1,9 +1,8 @@
 package acl
 
 import (
+	"gocbs/app/session"
 	"net/http"
-
-	"app/shared/session"
 )
 
 // DisallowAuth does not allow authenticated users to access the page

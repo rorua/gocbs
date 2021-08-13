@@ -4,17 +4,16 @@ import (
 	//"log"
 	"net/http"
 
-
-	"app/shared/view"
+	"gocbs/app/view"
 
 	//"github.com/gorilla/context"
 	//"github.com/josephspurrier/csrfbanana"
 	//"github.com/julienschmidt/httprouter"
+	"fmt"
+	"github.com/josephspurrier/csrfbanana"
+	"gocbs/app/session"
 	"gocbs/model"
 	"log"
-	"fmt"
-	"app/shared/session"
-	"github.com/josephspurrier/csrfbanana"
 )
 
 // AccountGET displays the accounts
@@ -30,8 +29,8 @@ func AccountBalanceIndexGET(w http.ResponseWriter, r *http.Request) {
 		dat = date[0]
 	}
 
-	query   := r.URL.Query()
-	qCount  := query.Get("date")
+	query := r.URL.Query()
+	qCount := query.Get("date")
 	fmt.Println(qCount)
 
 	accounts, err := model.AccountBalancesByDate(dat)
@@ -74,7 +73,7 @@ func AccountBalanceRestartPOST(w http.ResponseWriter, r *http.Request) {
 	} else {
 		sess.AddFlash(view.Flash{"ОСВ Перезапущен!", view.FlashSuccess})
 		sess.Save(r, w)
-		http.Redirect(w, r, "/account-balances?date=" + date, http.StatusFound)
+		http.Redirect(w, r, "/account-balances?date="+date, http.StatusFound)
 		return
 	}
 	// Display the same page

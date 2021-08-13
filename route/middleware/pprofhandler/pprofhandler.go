@@ -14,11 +14,10 @@
 package pprofhandler
 
 import (
-	"net/http"
-	"net/http/pprof"
-
 	"github.com/gorilla/context"
 	"github.com/julienschmidt/httprouter"
+	"net/http"
+	"net/http/pprof"
 )
 
 // Handler routes the pprof pages using httprouter

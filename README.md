@@ -4,7 +4,7 @@
 Russian-Tajik (Slavonic) University
 ## 2018
 
-## based on GoWebApp from github.com/josephspurrier/gowebapp
+## based on GoWebApp from [josephspurrier/gowebapp](https://github.com/josephspurrier/gowebapp)
 
 Basic MVC Web Application in Go
 

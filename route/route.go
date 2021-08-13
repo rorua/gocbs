@@ -1,19 +1,17 @@
 package route
 
 import (
-	"net/http"
-
+	"github.com/gorilla/context"
+	"github.com/josephspurrier/csrfbanana"
+	"github.com/julienschmidt/httprouter"
+	"github.com/justinas/alice"
+	"gocbs/app/session"
 	"gocbs/controller"
 	"gocbs/route/middleware/acl"
 	hr "gocbs/route/middleware/httprouterwrapper"
 	"gocbs/route/middleware/logrequest"
 	"gocbs/route/middleware/pprofhandler"
-	"app/shared/session"
-
-	"github.com/gorilla/context"
-	"github.com/josephspurrier/csrfbanana"
-	"github.com/julienschmidt/httprouter"
-	"github.com/justinas/alice"
+	"net/http"
 )
 
 // Load returns the routes and middleware
@@ -152,7 +150,6 @@ func routes() *httprouter.Router {
 	r.POST("/account-balances", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.AccountBalanceRestartPOST)))
-
 
 	// Enable Pprof
 	r.GET("/debug/pprof/*pprof", hr.Handler(alice.

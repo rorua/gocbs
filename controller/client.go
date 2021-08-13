@@ -6,17 +6,17 @@ import (
 	"net/http"
 
 	//"app/model"
-	"app/shared/session"
-	"app/shared/view"
+	"gocbs/app/session"
+	"gocbs/app/view"
 
 	//"github.com/gorilla/context"
 	//"github.com/josephspurrier/csrfbanana"
 	//"github.com/julienschmidt/httprouter"
+	"github.com/gorilla/context"
 	"github.com/josephspurrier/csrfbanana"
+	"github.com/julienschmidt/httprouter"
 	"gocbs/model"
 	"log"
-	"github.com/julienschmidt/httprouter"
-	"github.com/gorilla/context"
 )
 
 // ClientReadGET displays the notes in the notepad
@@ -70,7 +70,6 @@ func ClientCreatePOST(w http.ResponseWriter, r *http.Request) {
 	address := r.FormValue("address")
 	phone := r.FormValue("phone")
 	email := r.FormValue("email")
-
 
 	// Get database result
 	err := model.ClientCreate(name, fullName, phone, email, address, clientTypeId)

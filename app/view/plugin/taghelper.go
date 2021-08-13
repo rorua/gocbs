@@ -4,7 +4,7 @@ import (
 	"html/template"
 	"log"
 
-	"app/shared/view"
+	"gocbs/app/view"
 )
 
 // TagHelper returns a template.FuncMap

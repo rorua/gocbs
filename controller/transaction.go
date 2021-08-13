@@ -4,20 +4,19 @@ import (
 	//"log"
 	"net/http"
 
-
-	"app/shared/view"
+	"gocbs/app/view"
 
 	//"github.com/gorilla/context"
 	//"github.com/josephspurrier/csrfbanana"
 	//"github.com/julienschmidt/httprouter"
-	"gocbs/model"
-	"log"
-	"app/shared/session"
-	"github.com/josephspurrier/csrfbanana"
-	"encoding/csv"
 	"bufio"
-	"io"
+	"encoding/csv"
 	"fmt"
+	"github.com/josephspurrier/csrfbanana"
+	"gocbs/app/session"
+	"gocbs/model"
+	"io"
+	"log"
 )
 
 // TransactionIndexGET displays the Transactions
@@ -95,7 +94,6 @@ func TransactionCreatePOST(w http.ResponseWriter, r *http.Request) {
 
 }
 
-
 func TransactionCSV(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
@@ -104,7 +102,7 @@ func TransactionCSV(w http.ResponseWriter, r *http.Request) {
 	file, _, err := r.FormFile("csv")
 	if err != nil {
 		fmt.Println(err)
-		sess.AddFlash(view.Flash{"Field missing: CSV" , view.FlashError})
+		sess.AddFlash(view.Flash{"Field missing: CSV", view.FlashError})
 		sess.Save(r, w)
 		http.Redirect(w, r, "/transactions", http.StatusFound)
 		return
@@ -133,13 +131,13 @@ func TransactionCSV(w http.ResponseWriter, r *http.Request) {
 			debit = model.Account{}
 		}
 
-		amount 		:= record[2]
-		date 		:= record[3]
-		client 		:= record[4]
-		desc 		:= record[5]
+		amount := record[2]
+		date := record[3]
+		client := record[4]
+		desc := record[5]
 
-		creditId 	:= fmt.Sprint(credit.ID)
-		debitId 	:= fmt.Sprint(debit.ID)
+		creditId := fmt.Sprint(credit.ID)
+		debitId := fmt.Sprint(debit.ID)
 
 		ok := model.TransactionCreate(creditId, debitId, desc, client, date, amount)
 		if err != nil {

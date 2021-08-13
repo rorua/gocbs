@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 
+	"gocbs/app/session"
+	"gocbs/app/view"
 	"gocbs/model"
-	"app/shared/session"
-	"app/shared/view"
 
 	"github.com/gorilla/context"
 	"github.com/josephspurrier/csrfbanana"

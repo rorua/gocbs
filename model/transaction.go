@@ -4,25 +4,25 @@ import (
 	"time"
 
 	"fmt"
-	"app/shared/database"
+	"gocbs/app/database"
 )
 
 // *****************************************************************************
 // Transaction
 // *****************************************************************************
 type Transaction struct {
-	ID              	uint32 		`db:"id"`
-	CreditAccountId 	uint32 		`db:"credit_account_id"`
-	CreditAccount	 	string 		`db:"credit_account"`
-	DebitAccountId 		uint32 		`db:"debit_account_id"`
-	DebitAccount	 	string 		`db:"debit_account"`
-	Description		 	string 		`db:"description"`
-	Clients			 	string 		`db:"clients"`
-	Amount	  			float64 	`db:"amount"`
-	Date	  			time.Time   `db:"date"`
-	CreatedAt 			time.Time   `db:"created_at"`
-	UpdatedAt 			time.Time   `db:"updated_at"`
-	Deleted   			uint8       `db:"deleted"`
+	ID              uint32    `db:"id"`
+	CreditAccountId uint32    `db:"credit_account_id"`
+	CreditAccount   string    `db:"credit_account"`
+	DebitAccountId  uint32    `db:"debit_account_id"`
+	DebitAccount    string    `db:"debit_account"`
+	Description     string    `db:"description"`
+	Clients         string    `db:"clients"`
+	Amount          float64   `db:"amount"`
+	Date            time.Time `db:"date"`
+	CreatedAt       time.Time `db:"created_at"`
+	UpdatedAt       time.Time `db:"updated_at"`
+	Deleted         uint8     `db:"deleted"`
 }
 
 // TransactionID returns the account id
@@ -92,7 +92,7 @@ func CreditAccountSum(accountID uint32, date string) float64 {
 		fmt.Println("---")
 	}
 	sum := 0.
-	for _, n := range result  {
+	for _, n := range result {
 		sum += n.Amount
 	}
 	return sum
@@ -124,7 +124,7 @@ func DebitAccountSum(accountID uint32, date string) float64 {
 		fmt.Println("---")
 	}
 	sum := 0.
-	for _, n := range result  {
+	for _, n := range result {
 		sum += n.Amount
 	}
 	return sum
@@ -153,6 +153,7 @@ func TransactionsAll() ([]Transaction, error) {
 	`)
 	return result, standardizeError(err)
 }
+
 //
 // NoteCreate creates a note
 func TransactionCreate(creditAccountId, debitAccountId, description, clients, date, amount string) error {

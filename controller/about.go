@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 
-	"app/shared/view"
+	"gocbs/app/view"
 )
 
 // AboutGET displays the About page

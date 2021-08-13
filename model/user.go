@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"app/shared/database"
+	"gocbs/app/database"
 
 	"gopkg.in/mgo.v2/bson"
 )

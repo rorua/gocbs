@@ -4,10 +4,9 @@ package httprouterwrapper
 // Source: http://nicolasmerouze.com/guide-routers-golang/
 
 import (
-	"net/http"
-
 	"github.com/gorilla/context"
 	"github.com/julienschmidt/httprouter"
+	"net/http"
 )
 
 // HandlerFunc accepts the name of a function so you don't have to wrap it with http.HandlerFunc

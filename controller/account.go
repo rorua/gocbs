@@ -6,17 +6,17 @@ import (
 	"net/http"
 
 	//"app/model"
-	"app/shared/session"
-	"app/shared/view"
+	"gocbs/app/session"
+	"gocbs/app/view"
 
 	//"github.com/gorilla/context"
 	//"github.com/josephspurrier/csrfbanana"
 	//"github.com/julienschmidt/httprouter"
-	"gocbs/model"
-	"log"
-	"github.com/julienschmidt/httprouter"
 	"github.com/gorilla/context"
 	"github.com/josephspurrier/csrfbanana"
+	"github.com/julienschmidt/httprouter"
+	"gocbs/model"
+	"log"
 )
 
 // AccountGET displays the accounts
@@ -31,7 +31,6 @@ func AccountIndexGET(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		accounts = []model.Account{}
 	}
-
 
 	// Display the view
 	v := view.New(r)
@@ -84,7 +83,7 @@ func AccountCreateGET(w http.ResponseWriter, r *http.Request) {
 	v.Render(w)
 }
 
-func AccountCreatePOST(w http.ResponseWriter, r *http.Request)  {
+func AccountCreatePOST(w http.ResponseWriter, r *http.Request) {
 	sess := session.Instance(r)
 
 	// Validate with required fields

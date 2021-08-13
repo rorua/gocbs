@@ -4,20 +4,20 @@ import (
 	"time"
 
 	"fmt"
-	"app/shared/database"
+	"gocbs/app/database"
 )
 
 // *****************************************************************************
 // Account
 // *****************************************************************************
 type Account struct {
-	ID        uint32        `db:"id"`
-	Number 	  string        `db:"number"`
-	Name 	  string        `db:"name"`
-	Type 	  string        `db:"type"`
-	CreatedAt time.Time     `db:"created_at"`
-	UpdatedAt time.Time     `db:"updated_at"`
-	Deleted   uint8         `db:"deleted"`
+	ID        uint32    `db:"id"`
+	Number    string    `db:"number"`
+	Name      string    `db:"name"`
+	Type      string    `db:"type"`
+	CreatedAt time.Time `db:"created_at"`
+	UpdatedAt time.Time `db:"updated_at"`
+	Deleted   uint8     `db:"deleted"`
 }
 
 // AccountID returns the account id
@@ -70,6 +70,7 @@ func AccountCreate(name string, number string, typeName string) error {
 	_, err = database.SQL.Exec("INSERT INTO accounts (name, type, number, created_at, updated_at) VALUES (?,?,?,?,?)", name, typeName, number, now, now)
 	return standardizeError(err)
 }
+
 //
 //// NoteUpdate updates a note
 //func NoteUpdate(content string, userID string, noteID string) error {

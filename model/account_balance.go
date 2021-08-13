@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"fmt"
-	"app/shared/database"
+	"gocbs/app/database"
 	"log"
 )
 
@@ -19,7 +19,7 @@ type AccountBalance struct {
 	CreditSum    float64   `db:"credit_sum"`
 	EndBalance   float64   `db:"end_balance"`
 	StartBalance float64   `db:"start_balance"`
-	Date    	 time.Time `db:"date"`
+	Date         time.Time `db:"date"`
 }
 
 // AccountBalanceID returns the account id
@@ -110,13 +110,13 @@ func AccountBalanceCreate(date string) error {
 		t, _ := time.Parse("2006-01-02", date)
 
 		startBalance, creditSum, debitSum, endBalance := calculateAccountBalance(date, account)
-		balance := AccountBalance {
-			StartBalance	: startBalance,
-			EndBalance		: endBalance,
-			CreditSum		: creditSum,
-			DebitSum		: debitSum,
-			Date			: t,
-			AccountID		: account.ID,
+		balance := AccountBalance{
+			StartBalance: startBalance,
+			EndBalance:   endBalance,
+			CreditSum:    creditSum,
+			DebitSum:     debitSum,
+			Date:         t,
+			AccountID:    account.ID,
 		}
 		//fmt.Println(balance)
 		accountBalances = append(accountBalances, balance)
@@ -152,18 +152,18 @@ func AccountBalanceInsert(balance AccountBalance) error {
 5.	Конечное сальдо равно начальному сальдо плюс обороты по кредиту минус обороты по дебиту;
 6.	Конечное сальдо равно начальному сальдо плюс обороты по дебиту минус обороты по кредиту;
 7.	Вернуть массив
- */
+*/
 func calculateAccountBalance(date string, account Account) (float64, float64, float64, float64) {
 	//1.Вытащить из БД баланс счета на дату, за день до выбранной;
 	balance, err := AccountBalanceAccount(account.ID, date)
 	if err != nil {
 		balance.EndBalance = 0
 	}
-	startBalance 	:= balance.EndBalance
+	startBalance := balance.EndBalance
 	//2. Пройтись по проводкам (таблица transactions) выбранной даты и посчитать сумму всех проводок
-	creditSum 		:= CreditAccountSum(account.ID, date)
+	creditSum := CreditAccountSum(account.ID, date)
 	//3. Пройтись по проводкам (таблица transactions) выбранной даты и посчитать сумму всех проводок
-	debitSum 		:= DebitAccountSum(account.ID, date)
+	debitSum := DebitAccountSum(account.ID, date)
 
 	endBalance := 0.
 	//4. Посмотреть тип счета (полу type): Если счет пассивный (passive) перейти к шагу (5), если счет активный (active) перейти к шагу (6);
